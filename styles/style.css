@@ -43,3 +43,27 @@ body {
   text-align: center;
   margin: 10px 0;
 }
+
+.pokemon {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-color: blue;
+  color: white;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  user-select: none;
+}
+
+.pokeball {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  border: 2px solid white;
+  border-radius: 50%;
+  z-index: 10;
+}

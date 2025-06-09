@@ -2,125 +2,133 @@ class Game {
   constructor() {
     this.container = document.getElementById("game-container");
     this.puntosElement = document.getElementById("puntos");
-    this.personaje = null;
-    this.monedas = [];
-    this.puntuacion = 0;
+    this.pokemons = [];
+    this.pokedex = new Set();
+    this.nivelActual = 0;
 
-    this.crearEscenario();
-    this.agregarEventos();
+    this.niveles = [
+      ["Pikachu", "Bulbasaur", "Charmander"],
+      ["Squirtle", "Jigglypuff", "Meowth"],
+      ["Pidgey", "Rattata", "Eevee"]
+    ];
+
+    this.totalPokemon = this.niveles.flat().length;
+    this.crearNivel();
+
+    this.container.addEventListener("click", (e) => {
+      const rect = this.container.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      new Pokeball(clickX, clickY, this);
+    });
+
+
   }
 
-  crearEscenario() {
-    this.personaje = new Personaje();
-    this.container.appendChild(this.personaje.element);
+  crearNivel() {
+    this.limpiarEscenario();
 
-    for (let i = 0; i < 5; i++) {
-      const moneda = new Moneda();
-      this.monedas.push(moneda);
-      this.container.appendChild(moneda.element);
+    const nombres = this.niveles[this.nivelActual];
+    nombres.forEach(nombre => {
+      const pokemon = new Pokemon(nombre, this.container);
+      this.pokemons.push(pokemon);
+    });
+
+    this.actualizarPokedex();
+  }
+
+
+  limpiarEscenario() {
+    this.pokemons.forEach(p => this.container.removeChild(p.element));
+    this.pokemons = [];
+  }
+
+  capturarPokemon(nombre, pokemonObj) {
+    if (!this.pokedex.has(nombre)) {
+      this.pokedex.add(nombre);
+      this.actualizarPokedex();
+    }
+
+    this.container.removeChild(pokemonObj.element);
+    this.pokemons = this.pokemons.filter(p => p !== pokemonObj);
+
+    if (this.pokemons.length === 0) {
+      this.nivelActual++;
+      if (this.nivelActual < this.niveles.length) {
+        setTimeout(() => this.crearNivel(), 1000);
+      } else {
+        alert("¡Has completado todos los niveles!");
+      }
     }
   }
 
-  agregarEventos() {
-    window.addEventListener("keydown", (e) => this.personaje.mover(e));
-    this.checkColisiones();
+  actualizarPokedex() {
+    this.puntosElement.textContent = `Pokédex: ${this.pokedex.size}/${this.totalPokemon}`;
   }
 
-  checkColisiones() {
-    setInterval(() => {
-      this.monedas.forEach((moneda, index) => {
-        if (this.personaje.colisionaCon(moneda)) {
-          this.container.removeChild(moneda.element);
-          this.monedas.splice(index, 1);
-          this.actualizarPuntuacion(10);
-        }
-      });
-    }, 100);
-  }
-
-  actualizarPuntuacion(puntos) {
-    this.puntuacion += puntos;
-    this.puntosElement.textContent = `Puntos: ${this.puntuacion}`;
-  }
 }
 
-class Personaje {
-  constructor() {
-    this.x = 50;
-    this.y = 300;
-    this.width = 50;
-    this.height = 50;
-    this.velocidad = 10;
-    this.saltando = false;
-
+class Pokeball {
+  constructor(xObjetivo, yObjetivo, game) {
+    this.x = 0;
+    this.y = 380; // desde esquina inferior izquierda
+    this.vx = (xObjetivo - this.x) / 30;
+    this.vy = (yObjetivo - this.y) / 30 - 5; // curva hacia arriba
+    this.radius = 15;
     this.element = document.createElement("div");
-    this.element.classList.add("personaje");
+    this.element.classList.add("pokeball");
+    game.container.appendChild(this.element);
+    this.game = game;
 
-    this.actualizarPosicion();
+    this.animar();
   }
 
-  mover(evento) {
-    if (evento.key === "ArrowRight") {
-      this.x += this.velocidad;
-    } else if (evento.key === "ArrowLeft") {
-      this.x -= this.velocidad;
-    } else if (evento.key === "ArrowUp" && !this.saltando) {
-      this.saltar();
-    }
+  animar() {
+    const intervalo = setInterval(() => {
+      this.x += this.vx;
+      this.vy += 0.5; // gravedad
+      this.y += this.vy;
 
-    this.actualizarPosicion();
-  }
+      this.element.style.left = `${this.x}px`;
+      this.element.style.top = `${this.y}px`;
 
-  saltar() {
-    this.saltando = true;
-    let alturaMaxima = this.y - 250;
-
-    const salto = setInterval(() => {
-      if (this.y > alturaMaxima) {
-        this.y -= 20;
-      } else {
-        clearInterval(salto);
-        this.caer();
+      for (const pokemon of this.game.pokemons) {
+        if (this.colisionaCon(pokemon)) {
+          clearInterval(intervalo);
+          this.game.capturarPokemon(pokemon.nombre, pokemon);
+          this.element.remove();
+          return;
+        }
       }
-      this.actualizarPosicion();
+
+      if (this.y > 400 || this.x > 800 || this.x < 0) {
+        clearInterval(intervalo);
+        this.element.remove();
+      }
     }, 20);
   }
 
-  caer() {
-    const gravedad = setInterval(() => {
-      if (this.y < 300) {
-        this.y += 10;
-      } else {
-        clearInterval(gravedad);
-        this.saltando = false;
-      }
-      this.actualizarPosicion();
-    }, 20);
-  }
-
-  actualizarPosicion() {
-    this.element.style.left = `${this.x}px`;
-    this.element.style.top = `${this.y}px`;
-  }
-
-  colisionaCon(objeto) {
+  colisionaCon(pokemon) {
     return (
-      this.x < objeto.x + objeto.width &&
-      this.x + this.width > objeto.x &&
-      this.y < objeto.y + objeto.height &&
-      this.y + this.height > objeto.y
+      this.x + this.radius > pokemon.x &&
+      this.x < pokemon.x + pokemon.width &&
+      this.y + this.radius > pokemon.y &&
+      this.y < pokemon.y + pokemon.height
     );
   }
 }
-
-class Moneda {
-  constructor() {
+class Pokemon {
+  constructor(nombre, container) {
+    this.nombre = nombre;
     this.x = Math.random() * 700 + 50;
     this.y = Math.random() * 250 + 50;
-    this.width = 30;
-    this.height = 30;
+    this.width = 40;
+    this.height = 40;
+
     this.element = document.createElement("div");
-    this.element.classList.add("moneda");
+    this.element.classList.add("pokemon");
+    this.element.textContent = nombre;
+    container.appendChild(this.element);
 
     this.actualizarPosicion();
   }
