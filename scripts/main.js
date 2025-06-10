@@ -7,9 +7,9 @@ class Game {
     this.nivelActual = 0;
 
     this.niveles = [
-      ["Pikachu", "Bulbasaur", "Charmander"],
-      ["Squirtle", "Jigglypuff", "Meowth"],
-      ["Pidgey", "Rattata", "Eevee"]
+      ["Torchic", "Treecko", "Mudkip"],
+      ["Poochyena", "Zigzagoon", "Wurmple"],
+      ["Seedot", "Shroomish", "Slakoth"]
     ];
 
     this.totalPokemon = this.niveles.flat().length;
@@ -27,6 +27,8 @@ class Game {
 
   crearNivel() {
     this.limpiarEscenario();
+    this.container.className = "";
+    this.container.classList.add(`fondo-nivel-${this.nivelActual}`);
 
     const nombres = this.niveles[this.nivelActual];
     nombres.forEach(nombre => {
@@ -77,6 +79,8 @@ class Pokeball {
     this.radius = 15;
     this.element = document.createElement("div");
     this.element.classList.add("pokeball");
+    this.element.style.left = `${this.x}px`;
+    this.element.style.top = `${this.y}px`;
     game.container.appendChild(this.element);
     this.game = game;
 
@@ -120,14 +124,21 @@ class Pokeball {
 class Pokemon {
   constructor(nombre, container) {
     this.nombre = nombre;
-    this.x = Math.random() * 700 + 50;
-    this.y = Math.random() * 250 + 50;
+    this.x = Math.random() * 550 + 50;
+    this.y = Math.random() * 200 + 50;
     this.width = 40;
     this.height = 40;
 
     this.element = document.createElement("div");
     this.element.classList.add("pokemon");
-    this.element.textContent = nombre;
+
+    const img = document.createElement("img");
+    img.src = `img/${nombre}.png`;
+    img.alt = nombre;
+    img.style.width = "100%";
+    img.style.height = "100%";
+
+    this.element.appendChild(img);
     container.appendChild(this.element);
 
     this.actualizarPosicion();

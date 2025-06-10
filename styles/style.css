@@ -1,8 +1,22 @@
+#game-container.fondo-nivel-0 {
+  background-image: url('../img/Villa_Raiz.png');
+  background-size: cover;
+}
+#game-container.fondo-nivel-1 {
+  background-image: url('../img/Ruta_101.png');
+  background-size: cover;
+}
+#game-container.fondo-nivel-2 {
+  background-image: url('../img/Bosque_Petalia.png');
+  background-size: cover;
+}
+
 body {
+  padding-top: 0;
   margin: 0;
   font-family: Arial, sans-serif;
   overflow: hidden;
-  background-color: #b8b8b8;
+  background-color: #23cd31;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,41 +43,40 @@ body {
   border: 5px solid #07a050;
 }
 
-.moneda {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background-color: gold;
-  border-radius: 50%;
-  box-shadow: 0 0 10px 2px rgba(255, 223, 0, 0.8);
+h1{
+  padding: 0px;
 }
 
 #puntos {
   font-size: 20px;
   text-align: center;
-  margin: 10px 0;
 }
 
 .pokemon {
   position: absolute;
-  width: 40px;
-  height: 40px;
-  background-color: blue;
-  color: white;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 80px;
+  height: 80px;
   border-radius: 8px;
   user-select: none;
+  overflow: hidden;
 }
 
 .pokeball {
   position: absolute;
-  width: 15px;
-  height: 15px;
+  width: 30px;
+  height: 30px;
   background-color: red;
-  border: 2px solid white;
-  border-radius: 50%;
-  z-index: 10;
+  border: 2px solid black;
+  border-radius:0;
+  animation: giro 0.5s linear infinite;
 }
+
+@keyframes giro {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
