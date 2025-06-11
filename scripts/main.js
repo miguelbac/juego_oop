@@ -1,7 +1,7 @@
 class Game {
   constructor() {
     this.container = document.getElementById("game-container");
-    this.puntosElement = document.getElementById("pokedex-counter");
+    this.pokedexElement = document.getElementById("pokedex-counter");
     this.pokemons = [];
     this.pokedex = new Set();
     this.nivelActual = 0;
@@ -200,4 +200,6 @@ class Pokemon {
   }
 }
 
-const juego = new Game();
+window.addEventListener("DOMContentLoaded", () => {
+  const juego = new Game();
+});
