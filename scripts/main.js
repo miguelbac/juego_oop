@@ -8,7 +8,7 @@ class Game {
     this.pokeballActiva = false;
 
     this.niveles = [
-      ["Torchick", "Treecko", "Mudkip"],
+      ["Torchic", "Treecko", "Mudkip"],
       ["poochyena", "zigzagoon", "wurmple"],
       ["seedot", "shroomish", "slakoth"]
     ];
@@ -32,26 +32,31 @@ class Game {
     this.container.className = "";
     this.container.classList.add(`fondo-nivel-${this.nivelActual}`);
 
+    this.pokemons = [];
+
     const nombres = this.niveles[this.nivelActual];
+
     for (const nombre of nombres) {
-      let nuevo;
-      let intentos = 0;
+      let x, y, intentos = 0;
       do {
-        nuevo = new Pokemon(nombre, this.container);
+        x = Math.random() * (800 - 80 - 20) + 10;
+        y = Math.random() * (400 - 80 - 20) + 10;
         intentos++;
-      } while (this.solapaMucho(nuevo) && intentos < 20);
+      } while (this.posicionSolapa(x, y) && intentos < 100);
+
+      const nuevo = new Pokemon(nombre, this.container, x, y);
       this.pokemons.push(nuevo);
     }
 
     this.actualizarPokedex();
   }
 
-  solapaMucho(nuevo) {
+  posicionSolapa(x, y) {
     return this.pokemons.some(p => {
-      const dx = nuevo.x - p.x;
-      const dy = nuevo.y - p.y;
+      const dx = x - p.x;
+      const dy = y - p.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      return dist < 60; // distancia mínima entre Pokémon
+      return dist < 80;
     });
   }
 
@@ -75,7 +80,6 @@ class Game {
       el.style.opacity = "0";
     }, 200);
 
-    // efecto de rebote de la pokeball
     if (pokeball?.element) {
       pokeball.element.style.animation = "rebote 0.5s ease";
     }
@@ -159,12 +163,12 @@ class Pokeball {
 }
 
 class Pokemon {
-  constructor(nombre, container) {
+  constructor(nombre, container, x, y) {
     this.nombre = nombre;
-    this.x = Math.random() * 550 + 50;
-    this.y = Math.random() * 200 + 50;
-    this.width = 40;
-    this.height = 40;
+    this.width = 80;
+    this.height = 80;
+    this.x = x;
+    this.y = y;
 
     this.element = document.createElement("div");
     this.element.classList.add("pokemon");
@@ -191,6 +195,8 @@ class Pokemon {
   actualizarPosicion() {
     this.element.style.left = `${this.x}px`;
     this.element.style.top = `${this.y}px`;
+    this.element.style.width = `${this.width}px`;
+    this.element.style.height = `${this.height}px`;
   }
 }
 
