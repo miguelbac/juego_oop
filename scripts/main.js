@@ -7,9 +7,9 @@ class Game {
     this.nivelActual = 0;
 
     this.niveles = [
-      ["Torchic", "Treecko", "Mudkip"],
-      ["Poochyena", "Zigzagoon", "Wurmple"],
-      ["Seedot", "Shroomish", "Slakoth"]
+      ["torchic", "treecko", "tudkip"],
+      ["poochyena", "zigzagoon", "wurmple"],
+      ["seedot", "shroomish", "slakoth"]
     ];
 
     this.totalPokemon = this.niveles.flat().length;
@@ -133,7 +133,7 @@ class Pokemon {
     this.element.classList.add("pokemon");
 
     const img = document.createElement("img");
-    img.src = `img/${nombre}.png`;
+    img.src = `../img/${nombre}.png`;
     img.alt = nombre;
     img.style.width = "100%";
     img.style.height = "100%";
