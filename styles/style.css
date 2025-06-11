@@ -12,16 +12,14 @@
 }
 
 body {
-  padding-top: 0;
   margin: 0;
   font-family: Arial, sans-serif;
+  background: url('../img/fondo-web2.png') no-repeat center center fixed;
+  background-size: cover;
   overflow: hidden;
-  background-color: #23cd31;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   flex-direction: column;
+  align-items: center;
 }
 #game-container {
   position: relative;
@@ -43,8 +41,10 @@ body {
   border: 5px solid #07a050;
 }
 
-h1{
-  padding: 0px;
+#logo {
+  width: 300px;
+  margin-bottom: 10px;
+  user-select: none;
 }
 
 #puntos {
@@ -63,11 +63,12 @@ h1{
 
 .pokeball {
   position: absolute;
-  width: 30px;
-  height: 30px;
-  background-color: red;
-  border: 2px solid black;
-  border-radius:0;
+  width: 40px;
+  height: 40px;
+  background-image: url('../img/pokeball2.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: none;
   animation: giro 0.5s linear infinite;
 }
 
