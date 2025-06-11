@@ -133,7 +133,7 @@ class Pokemon {
     this.element.classList.add("pokemon");
 
     const img = document.createElement("img");
-    img.src = `../img/${nombre.toLowerCase()}.png`;
+    img.src = `./img/${nombre.toLowerCase()}.png`;
     img.alt = nombre;
     img.style.width = "100%";
     img.style.height = "100%";
