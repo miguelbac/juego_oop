@@ -7,7 +7,7 @@ class Game {
     this.nivelActual = 0;
 
     this.niveles = [
-      ["Torchic", "Treecko", "Mudkip"],
+      ["Torchick", "Treecko", "Mudkip"],
       ["poochyena", "zigzagoon", "wurmple"],
       ["seedot", "shroomish", "slakoth"]
     ];
