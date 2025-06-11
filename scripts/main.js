@@ -103,9 +103,12 @@ class Game {
     }, 600);
   }
 
-  actualizarPokedex() {
-    this.puntosElement.textContent = `Pokédex: ${this.pokedex.size}/${this.totalPokemon}`;
+actualizarPokedex() {
+  if (this.pokedexElement) {
+    this.pokedexElement.textContent = `Pokédex: ${this.pokedex.size}/${this.totalPokemon}`;
   }
+}
+
 }
 
 class Pokeball {
