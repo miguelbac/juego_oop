@@ -44,7 +44,7 @@ class Game {
         intentos = 0;
       do {
         x = Math.random() * (800 - 80 - 20) + 10;
-        y = Math.random() * (400 - 80 - 20) + 10;
+        y = Math.random() * (300 - 80 - 20) + 10;
         intentos++;
       } while (this.posicionSolapa(x, y) && intentos < 100);
 
@@ -256,7 +256,7 @@ function showNextLine() {
   currentChar = 0;
 
   if (currentLine < introLines.length) {
-    typingInterval = setInterval(typeLine, 30);
+    typingInterval = setInterval(typeLine, 1);
   } else {
     introModal.style.display = "none";
     new Game();
