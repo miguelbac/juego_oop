@@ -212,7 +212,7 @@ class Pokemon {
 const introLines = [
   "¡Hola! Me llamo Abedul, pero todos me llaman Profesor Pokémon.",
   "¡Prepárate para comenzar tu aventura!",
-  "Captura todos los Pokémon de cada ruta para avanzar a la siguiente, cuanto más lejos apuntes, más lejos tirarás la Pokeball.",
+  "Captura todos los Pokémon de cada ruta para avanzar a la siguiente, cuanto más lejos apuntes, más fuerte tirarás la Pokeball.",
 ];
 
 let currentLine = 0;
