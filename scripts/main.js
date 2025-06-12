@@ -25,6 +25,8 @@ class Game {
       new Pokeball(clickX, clickY, this);
       this.pokeballActiva = true;
     });
+
+    window.gameInstance = this;
   }
 
   crearNivel() {
@@ -100,7 +102,7 @@ class Game {
         if (this.nivelActual < this.niveles.length) {
           setTimeout(() => this.crearNivel(), 1000);
         } else {
-          alert("¡Has completado todos los niveles!");
+          this.mostrarModalVictoria();
         }
       }
     }, 600);
@@ -110,6 +112,21 @@ class Game {
     if (this.pokedexElement) {
       this.pokedexElement.textContent = `Pokédex: ${this.pokedex.size}/${this.totalPokemon}`;
     }
+  }
+
+  mostrarModalVictoria() {
+    const modal = document.getElementById("win-modal");
+    modal.classList.remove("hidden");
+  }
+
+  reiniciarJuego() {
+    this.nivelActual = 0;
+    this.pokedex.clear();
+    this.actualizarPokedex();
+    this.crearNivel();
+
+    const modal = document.getElementById("win-modal");
+    modal.classList.add("hidden");
   }
 }
 
@@ -239,7 +256,7 @@ function showNextLine() {
   currentChar = 0;
 
   if (currentLine < introLines.length) {
-    typingInterval = setInterval(typeLine, 40);
+    typingInterval = setInterval(typeLine, 30);
   } else {
     introModal.style.display = "none";
     new Game();
@@ -254,4 +271,12 @@ startButton.addEventListener("click", (e) => {
 
 window.addEventListener("DOMContentLoaded", () => {
   showNextLine();
+});
+
+// Botón reiniciar modal victoria
+
+document.getElementById("restart-button").addEventListener("click", () => {
+  if (window.gameInstance) {
+    window.gameInstance.reiniciarJuego();
+  }
 });

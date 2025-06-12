@@ -181,3 +181,51 @@ body {
   transform: translateY(2px);
   box-shadow: 0 2px #444;
 }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px 40px; /* ya tienes esto, pero prueba a aumentarlo */
+  padding-left: 50px; /* añade más espacio a la izquierda */
+  box-sizing: border-box; /* para que el padding no desborde */
+  max-width: 400px;
+  border-radius: 20px;
+  font-family: 'Press Start 2P', cursive;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+#restart-button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #4caf50;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-family: 'Press Start 2P', cursive;
+  transition: background-color 0.2s ease;
+}
+
+#restart-button:hover {
+  background: #45a049;
+}
