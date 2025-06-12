@@ -1,3 +1,52 @@
+// ====== Audio Setup ======
+const sounds = {
+  throw: new Audio('./audio/throw.mp3'),
+  capture: new Audio('./audio/capture.mp3'),
+  littleroot: new Audio('./audio/littleroot.mp3'),
+  route101: new Audio('./audio/route101.mp3')
+};
+
+const VOLUMES = {
+  throw: 0.2,
+  capture: 0.2,
+  littleroot: 0.05,
+  route101: 0.01,
+};
+
+// Fijamos volúmenes iniciales
+for (const key in sounds) {
+  sounds[key].volume = VOLUMES[key];
+}
+
+sounds.littleroot.loop = true;
+sounds.route101.loop = true;
+
+// Forzamos que el volumen no cambie inesperadamente
+function fixVolume(audio, volume) {
+  Object.defineProperty(audio, 'volume', {
+    get() { return volume; },
+    set(_) { /* ignorar set */ },
+    configurable: true
+  });
+}
+fixVolume(sounds.littleroot, VOLUMES.littleroot);
+fixVolume(sounds.route101, VOLUMES.route101);
+
+// Control visibilidad pestaña
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    if (!sounds.littleroot.paused) sounds.littleroot.pause();
+    if (!sounds.route101.paused) sounds.route101.pause();
+  } else {
+    // Reanuda sólo el que corresponde en ese momento
+    if (introModal.style.display !== "none") {
+      sounds.littleroot.play().catch(() => {});
+    } else {
+      sounds.route101.play().catch(() => {});
+    }
+  }
+});
+
 class Game {
   constructor() {
     this.container = document.getElementById("game-container");
@@ -22,7 +71,12 @@ class Game {
       const rect = this.container.getBoundingClientRect();
       const clickX = e.clientX - rect.left;
       const clickY = e.clientY - rect.top;
+
       new Pokeball(clickX, clickY, this);
+
+      sounds.throw.currentTime = 0;
+      sounds.throw.play();
+
       this.pokeballActiva = true;
     });
 
@@ -78,7 +132,10 @@ class Game {
     const el = pokemonObj.element;
     el.style.transition =
       "filter 0.2s ease, transform 0.3s ease 0.2s, opacity 0.3s ease 0.2s";
-    el.style.filter = "brightness(4)";
+    el.style.filter = "brightness(400)";
+
+    sounds.capture.currentTime = 0;
+    sounds.capture.play();
 
     setTimeout(() => {
       el.style.transform = "scale(0)";
@@ -123,6 +180,10 @@ class Game {
     this.nivelActual = 0;
     this.pokedex.clear();
     this.actualizarPokedex();
+
+    sounds.route101.currentTime = 0;
+    sounds.route101.play();
+
     this.crearNivel();
 
     const modal = document.getElementById("win-modal");
@@ -256,25 +317,40 @@ function showNextLine() {
   currentChar = 0;
 
   if (currentLine < introLines.length) {
-    typingInterval = setInterval(typeLine, 1);
+    typingInterval = setInterval(typeLine, 20);
   } else {
     introModal.style.display = "none";
+
+    sounds.littleroot.pause();
+    sounds.route101.currentTime = 0;
+    sounds.route101.play();
+
     new Game();
   }
 }
 
-startButton.addEventListener("click", (e) => {
-  e.stopPropagation(); // evita que se lance una Pokéball
-  currentLine++;
+window.addEventListener("DOMContentLoaded", () => {
+  // Precarga audio
+  sounds.littleroot.load();
+
   showNextLine();
 });
 
-window.addEventListener("DOMContentLoaded", () => {
+startButton.addEventListener("click", (e) => {
+  e.stopPropagation(); // evita lanzar pokeball
+  currentLine++;
+
+  if (currentLine === 1) {
+    sounds.littleroot.currentTime = 0;
+    sounds.littleroot.play().catch(() => {
+      console.log("Autoplay bloqueado");
+    });
+  }
+
   showNextLine();
 });
 
 // Botón reiniciar modal victoria
-
 document.getElementById("restart-button").addEventListener("click", () => {
   if (window.gameInstance) {
     window.gameInstance.reiniciarJuego();

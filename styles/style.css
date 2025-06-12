@@ -235,3 +235,22 @@ box-shadow: 5px 5px 5px rgb(61, 61, 61);
 #restart-button:hover {
   background: #45a049;
 }
+
+#game-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 0;
+  opacity: 1;
+  transition: transform 0.4s ease;
+  will-change: transform;
+  pointer-events: none;
+}
+
+#game-container.transicion-nivel::before {
+  transform: translateX(-100%);
+}
+
