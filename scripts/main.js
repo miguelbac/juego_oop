@@ -124,7 +124,7 @@ class Game {
           }
         }
       }
-    }, 110); // velocidad más lenta (antes 110ms)
+    }, 95); // velocidad más lenta (antes 110ms)
   }
 
   actualizarSprite() {
