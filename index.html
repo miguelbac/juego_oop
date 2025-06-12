@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pokémon Clon</title>
+  <title>Pokémon Esmeralda</title>
+  <link rel="icon" type="image/x-icon" href="./img/pokeball2.png">
 
   <!-- Fuente Press Start 2P -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,15 +16,17 @@
 <body>
   <img src="img/logo-esmeralda.png" alt="Pokémon Esmeralda" id="logo" />
  
-  <div id="game-container" class="fondo-nivel-0">
-    <div id="intro-modal">
-      <img id="profesor" src="img/profesor.png" alt="Profesor" />
-      <div id="dialog-box">
-        <p id="dialogue-text"></p>
-        <button id="start-button">Siguiente</button>
-      </div>
+<div id="game-container" class="fondo-nivel-0">
+  <div id="pokedex-counter">Pokédex: 0/9</div> <!-- <-- Añadir esto -->
+  <div id="intro-modal">
+    <img id="profesor" src="img/profesor.png" alt="Profesor" />
+    <div id="dialog-box">
+      <p id="dialogue-text"></p>
+      <button id="start-button">Siguiente</button>
     </div>
   </div>
+  
+</div>
 
   <script type="module" src="./scripts/main.js"></script>
 </body>
