@@ -7,8 +7,8 @@ const sounds = {
 };
 
 const VOLUMES = {
-  throw: 0.2,
-  capture: 0.2,
+  throw: 0.08,
+  capture: 0.08,
   littleroot: 0.05,
   route101: 0.01,
 };
