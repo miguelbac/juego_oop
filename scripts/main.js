@@ -56,6 +56,12 @@ class Game {
     this.nivelActual = 0;
     this.pokeballActiva = false;
 
+    // --- Añadido: referencia al sprite lanzador
+    this.throwerSprite = document.getElementById("thrower-sprite");
+    this.spriteFrames = 5;
+    this.spriteCurrentFrame = 1;
+    this.spriteInterval = null;
+
     this.niveles = [
       ["Torchic", "Treecko", "Mudkip"],
       ["poochyena", "zigzagoon", "wurmple"],
@@ -65,6 +71,8 @@ class Game {
     this.totalPokemon = this.niveles.flat().length;
     this.crearNivel();
 
+    this.clickTarget = null; // guardamos el objetivo de click para la pokeball
+
     this.container.addEventListener("click", (e) => {
       if (this.pokeballActiva) return;
 
@@ -72,15 +80,60 @@ class Game {
       const clickX = e.clientX - rect.left;
       const clickY = e.clientY - rect.top;
 
-      new Pokeball(clickX, clickY, this);
+      // Guardamos el objetivo para lanzar pokeball en frame 4
+      this.clickTarget = { x: clickX, y: clickY };
 
-      sounds.throw.currentTime = 0;
-      sounds.throw.play();
+      this.animarSprite();
 
       this.pokeballActiva = true;
     });
 
+    this.resetSprite();
+
     window.gameInstance = this;
+  }
+
+  animarSprite() {
+    if (this.spriteInterval) return; // si ya hay animación, no hacer nada
+
+    this.spriteCurrentFrame = 1;
+    this.actualizarSprite();
+
+    let pokeballLanzada = false;
+
+    this.spriteInterval = setInterval(() => {
+      this.spriteCurrentFrame++;
+      if (this.spriteCurrentFrame > this.spriteFrames) {
+        clearInterval(this.spriteInterval);
+        this.spriteInterval = null;
+        this.resetSprite();
+      } else {
+        this.actualizarSprite();
+
+        if (this.spriteCurrentFrame === 4 && !pokeballLanzada) {
+          pokeballLanzada = true;
+
+          // Posición inicial de la pokeball justo encima/derecha del sprite lanzador
+          const startX = this.throwerSprite.offsetLeft + this.throwerSprite.clientWidth - 20;
+          const startY = this.throwerSprite.offsetTop + 20;
+
+          if (this.clickTarget) {
+            new Pokeball(startX, startY, this.clickTarget.x, this.clickTarget.y, this);
+            sounds.throw.currentTime = 0;
+            sounds.throw.play();
+          }
+        }
+      }
+    }, 110); // velocidad más lenta (antes 110ms)
+  }
+
+  actualizarSprite() {
+    this.throwerSprite.style.backgroundImage = `url('./img/sprite-${this.spriteCurrentFrame}.png')`;
+  }
+
+  resetSprite() {
+    this.spriteCurrentFrame = 1;
+    this.actualizarSprite();
   }
 
   crearNivel() {
@@ -154,6 +207,8 @@ class Game {
       this.pokemons = this.pokemons.filter((p) => p !== pokemonObj);
       this.pokeballActiva = false;
 
+      this.resetSprite();
+
       if (this.pokemons.length === 0) {
         this.nivelActual++;
         if (this.nivelActual < this.niveles.length) {
@@ -188,13 +243,15 @@ class Game {
 
     const modal = document.getElementById("win-modal");
     modal.classList.add("hidden");
+
+    this.resetSprite();
   }
 }
 
 class Pokeball {
-  constructor(xObjetivo, yObjetivo, game) {
-    this.x = 0;
-    this.y = 380;
+  constructor(xInicio, yInicio, xObjetivo, yObjetivo, game) {
+    this.x = xInicio;
+    this.y = yInicio;
     this.vx = (xObjetivo - this.x) / 30;
     this.vy = (yObjetivo - this.y) / 30 - 5;
     this.radius = 15;
@@ -231,6 +288,7 @@ class Pokeball {
         clearInterval(intervalo);
         this.element.remove();
         this.game.pokeballActiva = false;
+        this.game.resetSprite();
       }
     }, 20);
   }
@@ -330,14 +388,13 @@ function showNextLine() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  // Precarga audio
   sounds.littleroot.load();
 
   showNextLine();
 });
 
 startButton.addEventListener("click", (e) => {
-  e.stopPropagation(); // evita lanzar pokeball
+  e.stopPropagation();
   currentLine++;
 
   if (currentLine === 1) {

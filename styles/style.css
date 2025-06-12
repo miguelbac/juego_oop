@@ -81,6 +81,7 @@ box-shadow: 5px 5px 5px rgb(61, 61, 61);
   background-repeat: no-repeat;
   border: none;
   animation: giro 0.5s linear infinite;
+  z-index: 20;
 }
 
 @keyframes giro {
@@ -253,4 +254,21 @@ box-shadow: 5px 5px 5px rgb(61, 61, 61);
 #game-container.transicion-nivel::before {
   transform: translateX(-100%);
 }
+
+
+#thrower-sprite {
+  position: absolute;
+  left: 50px;
+  top: 310px;       /* Más abajo */
+  width: 96px;      /* Más ancho */
+  height: 96px;     /* Más alto */
+  background-image: url('./img/sprite-1.png');
+  background-size: cover;
+  background-size: cover;
+  user-select: none;
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* Ajuste en la clase pokeball para el tamaño y posición mejor */
 

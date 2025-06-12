@@ -7,36 +7,40 @@
   <link rel="icon" type="image/x-icon" href="./img/pokeball2.png">
 
   <!-- Fuente Press Start 2P -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="./styles/style.css" />
 </head>
 <body>
   <img src="img/logo-esmeralda.png" alt="Pokémon Esmeralda" id="logo" />
- 
-<div id="game-container" class="fondo-nivel-0">
-  <div id="pokedex-counter">Pokédex: 0/9</div> <!-- <-- Añadir esto -->
-  <div id="intro-modal">
-    <img id="profesor" src="img/profesor.png" alt="Profesor" />
-    <div id="dialog-box">
-      <p id="dialogue-text"></p>
-      <button id="start-button">Siguiente</button>
+
+  <div id="game-container" class="fondo-nivel-0">
+    <div id="pokedex-counter">Pokédex: 0/9</div>
+    
+    <!-- DIV DEL SPRITE LANZADOR -->
+    <div id="thrower-sprite" class="thrower-sprite"></div>
+
+    <div id="intro-modal">
+      <img id="profesor" src="img/profesor.png" alt="Profesor" />
+      <div id="dialog-box">
+        <p id="dialogue-text"></p>
+        <button id="start-button">Siguiente</button>
+      </div>
     </div>
   </div>
-  
-</div>
-<div id="win-modal" class="modal hidden">
-  <div class="modal-content">
-    <h2>Aventura finalizada</h2>
-    <p>Ibas a convertirte en maestro Pokémon, pero echas de menos a tu madre, así que vuelves a casa. 
-      Pero has capturado 9 Pokémon, ¡No está nada mal!
-    </p>
-    <button id="restart-button">Reiniciar Juego</button>
-  </div>
-</div>
 
+  <div id="win-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Aventura finalizada</h2>
+      <p>
+        Ibas a convertirte en maestro Pokémon, pero echas de menos a tu madre, así que vuelves a casa.
+        Pero has capturado 9 Pokémon, ¡No está nada mal!
+      </p>
+      <button id="restart-button">Reiniciar Juego</button>
+    </div>
+  </div>
 
   <script type="module" src="./scripts/main.js"></script>
 </body>
