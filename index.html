@@ -1,15 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pokémon Esmeralda Lite</title>
-  <link rel="stylesheet" href="styles/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokémon Clon</title>
+
+  <!-- Fuente Press Start 2P -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./styles/style.css" />
 </head>
 <body>
   <img src="img/logo-esmeralda.png" alt="Pokémon Esmeralda" id="logo" />
-  <div id="game-container">
-    <div id="pokedex-counter"></div>
+ 
+  <div id="game-container" class="fondo-nivel-0">
+    <div id="intro-modal">
+      <img id="profesor" src="img/profesor.png" alt="Profesor" />
+      <div id="dialog-box">
+        <p id="dialogue-text"></p>
+        <button id="start-button">Siguiente</button>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="./scripts/main.js"></script>

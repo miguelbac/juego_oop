@@ -13,7 +13,7 @@
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Press Start 2P', cursive;
   background: url('../img/fondo-web2.png') no-repeat center center fixed;
   background-size: cover;
   overflow: hidden;
@@ -29,10 +29,9 @@ body {
   margin: 20px auto;
   border: 1px solid #333;
   box-shadow: 2px 5px 5px rgb(85, 85, 85);
-  border-radius: 4px;
+  border-radius: 30px;
   background: #fff;
   overflow: hidden;
-  border-radius: 30px;
 }
 
 #logo {
@@ -108,4 +107,77 @@ body {
   60%  { transform: translateY(0); }
   80%  { transform: translateY(-5px); }
   100% { transform: translateY(0); }
+}
+
+#intro-modal {
+  position: absolute;
+  width: 800px;
+  height: 400px;
+  background: url('../img/laboratorio.png') no-repeat center center;
+  background-size: cover;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+#profesor {
+  width: 160px;
+  margin: 20px 0 20px 0;
+}
+
+#dialog-box {
+  background: white;
+  width: 90%;
+  height: auto;
+  margin-bottom: 20px;
+  padding: 20px;
+  text-align: left;
+  color: #000;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 13px;
+  border: #000 solid 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#dialogue-text {
+  min-height: 60px;
+  white-space: pre-wrap;
+  line-height: 1.4;
+}
+
+#start-button {
+  align-self: flex-end;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: #f8f8f8;
+  color: #000;
+  border: 2px solid #000;
+  box-shadow: 0 4px #444;
+  font-weight: bold;
+  font-size: 10px;
+  font-family: 'Press Start 2P', cursive;
+  cursor: pointer;
+  visibility: hidden;
+  outline: none;
+  transition: transform 0.1s ease;
+}
+
+#start-button.visible {
+  visibility: visible;
+}
+
+#start-button:hover {
+  background: #e0e0e0;
+}
+
+#start-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px #444;
 }

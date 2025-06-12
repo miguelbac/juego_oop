@@ -10,7 +10,7 @@ class Game {
     this.niveles = [
       ["Torchic", "Treecko", "Mudkip"],
       ["poochyena", "zigzagoon", "wurmple"],
-      ["seedot", "shroomish", "slakoth"]
+      ["seedot", "shroomish", "slakoth"],
     ];
 
     this.totalPokemon = this.niveles.flat().length;
@@ -37,7 +37,9 @@ class Game {
     const nombres = this.niveles[this.nivelActual];
 
     for (const nombre of nombres) {
-      let x, y, intentos = 0;
+      let x,
+        y,
+        intentos = 0;
       do {
         x = Math.random() * (800 - 80 - 20) + 10;
         y = Math.random() * (400 - 80 - 20) + 10;
@@ -52,7 +54,7 @@ class Game {
   }
 
   posicionSolapa(x, y) {
-    return this.pokemons.some(p => {
+    return this.pokemons.some((p) => {
       const dx = x - p.x;
       const dy = y - p.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
@@ -61,7 +63,7 @@ class Game {
   }
 
   limpiarEscenario() {
-    this.pokemons.forEach(p => this.container.removeChild(p.element));
+    this.pokemons.forEach((p) => this.container.removeChild(p.element));
     this.pokemons = [];
   }
 
@@ -72,7 +74,8 @@ class Game {
     }
 
     const el = pokemonObj.element;
-    el.style.transition = "filter 0.2s ease, transform 0.3s ease 0.2s, opacity 0.3s ease 0.2s";
+    el.style.transition =
+      "filter 0.2s ease, transform 0.3s ease 0.2s, opacity 0.3s ease 0.2s";
     el.style.filter = "brightness(4)";
 
     setTimeout(() => {
@@ -89,7 +92,7 @@ class Game {
       if (pokeball?.element) {
         pokeball.element.remove();
       }
-      this.pokemons = this.pokemons.filter(p => p !== pokemonObj);
+      this.pokemons = this.pokemons.filter((p) => p !== pokemonObj);
       this.pokeballActiva = false;
 
       if (this.pokemons.length === 0) {
@@ -103,12 +106,11 @@ class Game {
     }, 600);
   }
 
-actualizarPokedex() {
-  if (this.pokedexElement) {
-    this.pokedexElement.textContent = `Pokédex: ${this.pokedex.size}/${this.totalPokemon}`;
+  actualizarPokedex() {
+    if (this.pokedexElement) {
+      this.pokedexElement.textContent = `Pokédex: ${this.pokedex.size}/${this.totalPokemon}`;
+    }
   }
-}
-
 }
 
 class Pokeball {
@@ -203,6 +205,53 @@ class Pokemon {
   }
 }
 
+// ============================
+// Intro animada tipo Pokémon
+// ============================
+
+const introLines = [
+  "¡Hola! Me llamo Abedul, pero todos me llaman Profesor Pokémon.",
+  "¡Prepárate para comenzar tu aventura!",
+  "Captura todos los Pokémon de cada ruta para avanzar a la siguiente, cuanto más lejos apuntes, más lejos tirarás la Pokeball.",
+];
+
+let currentLine = 0;
+let currentChar = 0;
+let typingInterval;
+
+const dialogueText = document.getElementById("dialogue-text");
+const startButton = document.getElementById("start-button");
+const introModal = document.getElementById("intro-modal");
+
+function typeLine() {
+  if (currentChar < introLines[currentLine].length) {
+    dialogueText.textContent += introLines[currentLine].charAt(currentChar);
+    currentChar++;
+  } else {
+    clearInterval(typingInterval);
+    startButton.classList.add("visible");
+  }
+}
+
+function showNextLine() {
+  startButton.classList.remove("visible");
+  dialogueText.textContent = "";
+  currentChar = 0;
+
+  if (currentLine < introLines.length) {
+    typingInterval = setInterval(typeLine, 40);
+  } else {
+    introModal.style.display = "none";
+    new Game();
+  }
+}
+
+startButton.addEventListener("click", (e) => {
+  e.stopPropagation(); // evita que se lance una Pokéball
+  currentLine++;
+  showNextLine();
+});
+
 window.addEventListener("DOMContentLoaded", () => {
-  const juego = new Game();
+  showNextLine();
 });
