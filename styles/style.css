@@ -1,3 +1,4 @@
+/* ==== FONDOS POR NIVEL ==== */
 #game-container.fondo-nivel-0 {
   background-image: url('../img/Villa_Raiz.png');
   background-size: cover;
@@ -11,6 +12,7 @@
   background-size: cover;
 }
 
+/* ==== ESTILO GENERAL DEL BODY ==== */
 body {
   margin: 0;
   font-family: 'Press Start 2P', cursive;
@@ -22,6 +24,7 @@ body {
   align-items: center;
 }
 
+/* ==== CONTENEDOR DEL JUEGO ==== */
 #game-container {
   position: relative;
   width: 800px;
@@ -34,35 +37,36 @@ body {
   overflow: hidden;
 }
 
+/* ==== LOGO ==== */
 #logo {
   width: 300px;
   margin-bottom: 10px;
   user-select: none;
 }
 
+/* ==== CONTADOR DE POKÉDEX ==== */
 #pokedex-counter {
   font-family: 'Press Start 2P', cursive;
   background-color: #ffffff;
   color: rgb(0, 0, 0);
-  padding: 12px 12px 12px 55px; /* más padding a la izquierda para el icono */
+  padding: 12px 12px 12px 55px;
   border-radius: 10px;
   font-weight: bold;
   font-size: 14px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   user-select: none;
   pointer-events: none;
   position: absolute;
   top: 15px;
   right: 20px;
   z-index: 10;
-box-shadow: 5px 5px 5px rgb(61, 61, 61);
-
+  box-shadow: 5px 5px 5px rgb(61, 61, 61);
   background-image: url('../img/pokedex.png');
   background-repeat: no-repeat;
   background-position: 10px center;
   background-size: 42px 34px;
 }
 
+/* ==== POKÉMON ==== */
 .pokemon {
   position: absolute;
   width: 80px;
@@ -72,6 +76,11 @@ box-shadow: 5px 5px 5px rgb(61, 61, 61);
   overflow: hidden;
 }
 
+.pokemon.appear {
+  animation: aparecer 0.4s ease-out;
+}
+
+/* ==== POKÉBALL ==== */
 .pokeball {
   position: absolute;
   width: 40px;
@@ -84,17 +93,10 @@ box-shadow: 5px 5px 5px rgb(61, 61, 61);
   z-index: 20;
 }
 
+/* ==== ANIMACIONES ==== */
 @keyframes giro {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.pokemon.appear {
-  animation: aparecer 0.4s ease-out;
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 @keyframes aparecer {
@@ -116,6 +118,7 @@ box-shadow: 5px 5px 5px rgb(61, 61, 61);
   100% { transform: translateY(0); }
 }
 
+/* ==== MODAL INTRODUCTORIO ==== */
 #intro-modal {
   position: absolute;
   width: 800px;
@@ -131,15 +134,16 @@ box-shadow: 5px 5px 5px rgb(61, 61, 61);
   overflow: hidden;
 }
 
+/* ==== PROFESOR OAK ==== */
 #profesor {
   width: 160px;
   margin: 20px 0 20px 0;
 }
 
+/* ==== CUADRO DE DIÁLOGO ==== */
 #dialog-box {
   background: white;
   width: 90%;
-  height: auto;
   margin-bottom: 20px;
   padding: 20px;
   text-align: left;
@@ -159,6 +163,7 @@ box-shadow: 5px 5px 5px rgb(61, 61, 61);
   line-height: 1.4;
 }
 
+/* ==== BOTÓN INICIAR ==== */
 #start-button {
   align-self: flex-end;
   margin-top: 10px;
@@ -189,6 +194,7 @@ box-shadow: 5px 5px 5px rgb(61, 61, 61);
   box-shadow: 0 2px #444;
 }
 
+/* ==== MODAL DE FINAL ==== */
 .modal {
   position: fixed;
   top: 0;
@@ -208,17 +214,17 @@ box-shadow: 5px 5px 5px rgb(61, 61, 61);
 
 .modal-content {
   background: white;
-  padding: 30px 40px; /* ya tienes esto, pero prueba a aumentarlo */
-  padding-left: 50px; /* añade más espacio a la izquierda */
-  box-sizing: border-box; /* para que el padding no desborde */
+  padding: 30px 40px;
+  padding-left: 50px;
+  box-sizing: border-box;
   max-width: 400px;
   border-radius: 20px;
   font-family: 'Press Start 2P', cursive;
   text-align: center;
-  max-width: 400px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
+/* ==== BOTÓN REINICIAR ==== */
 #restart-button {
   margin-top: 20px;
   padding: 12px 20px;
@@ -237,38 +243,16 @@ box-shadow: 5px 5px 5px rgb(61, 61, 61);
   background: #45a049;
 }
 
-#game-container::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  z-index: 0;
-  opacity: 1;
-  transition: transform 0.4s ease;
-  will-change: transform;
-  pointer-events: none;
-}
-
-#game-container.transicion-nivel::before {
-  transform: translateX(-100%);
-}
-
-
+/* ==== SPRITE DEL LANZADOR ==== */
 #thrower-sprite {
   position: absolute;
   left: 50px;
-  top: 310px;       /* Más abajo */
-  width: 96px;      /* Más ancho */
-  height: 96px;     /* Más alto */
+  top: 310px;
+  width: 96px;
+  height: 96px;
   background-image: url('./img/sprite-1.png');
-  background-size: cover;
   background-size: cover;
   user-select: none;
   pointer-events: none;
   z-index: 15;
 }
-
-/* Ajuste en la clase pokeball para el tamaño y posición mejor */
-
